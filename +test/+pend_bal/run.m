@@ -59,7 +59,7 @@ x_rng = Range([x1_min, x2_min], [x1_max, x2_max], [x1_size, x2_size]);
 u_rng = Range(u1_min, u1_max, u1_size);
 [u_opts, j_mins] = syn(@f, @g, @h, t_size, x_rng, u_rng, horizon, 100);
 
-% Override instability
+% Override unstable equilibrium
 x = [0; 0];
 u = u_rng.vals_max;
 switch horizon
@@ -128,7 +128,7 @@ xlabel('Time [s]')
 ylabel('Acceleration [rad/s^2]')
 plot(t_sim, u_sim, 'r-')
 
-% Final displau
+% Final display
 fprintf('Complete!\n\n')
 
 end
