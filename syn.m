@@ -1,4 +1,4 @@
-function [u_opts, j_mins] = syn(f, g, h, N, x_rng, u_rng, horizon, j_init)
+function [u_opts, j_mins] = syn(f, g, h, N, x_rng, u_rng, horiz, j_init)
 %[u_opts, j_mins] = SYN(f, g, h, N, x_rng, u_rng, horizon, j_init)
 %   Dynamic programming synthesis
 %   
@@ -9,7 +9,7 @@ function [u_opts, j_mins] = syn(f, g, h, N, x_rng, u_rng, horizon, j_init)
 %   - N = Number of discrete samples [int]
 %   - x_rng = Admissible states [multi_array.Range]
 %   - u_rng = Admissible controls [multi_array.Range]
-%   - horizon = Horizon ['Finite', 'Infinite']
+%   - horiz = Horizon ['Finite', 'Infinite']
 %   - j_init = Initial cost of all states [double]
 %   
 %   Outputs:
@@ -22,12 +22,16 @@ function [u_opts, j_mins] = syn(f, g, h, N, x_rng, u_rng, horizon, j_init)
 %       J = h(x[N+1]) + sum(g(x[k], u[k], k))
 %       k = 1 ... N
 %   
-%   SYN estimates the optimal controls as a function of state x and sample k
+%   SYN estimates the optimal controls u as a function of state x and sample k
 %   which minimize the cost functioal J. For 'Finite' horizon, SYN returns a
 %   [1 x N] LUT array of optimal controls and [1 x N+1] LUT array of minimum
 %   costs corresponding to samples k = 1 ... N, with the minimum costs at
 %   sample N+1 corresponding to the terminal costs. For 'Infinite' horizon,
 %   Only the LUTs for sample k = 1 are returned for both.
+%   
+%   See also: SYNW
+%   
+%   Author: Dan Oates (WPI Class of 2020)
 
 % Imports
 import('timing.ProgDisp');
@@ -99,7 +103,7 @@ for k = N : -1 : 1
 end
 
 % Convert cells to LUT arrays
-if strcmp(horizon, 'Finite')
+if strcmp(horiz, 'Finite')
     u_opts_cell = u_opts;
     j_mins_cell = j_mins;
     u_opts = LUT.empty(1, 0);
@@ -109,11 +113,11 @@ if strcmp(horizon, 'Finite')
         u_opts(1, k) = u_opts_cell{k};
     end
     j_mins(1, N+1) = j_mins_cell{N+1};
-elseif strcmp(horizon, 'Infinite')
+elseif strcmp(horiz, 'Infinite')
     u_opts = u_opts{1};
     j_mins = j_mins{1};
 else
-    error('Invalid horizon: ''%s''', horizon)
+    error('Invalid horizon: ''%s''', horiz)
 end
 
 end
