@@ -3,8 +3,7 @@ Matlab package for dynamic programming
 Written by Dan Oates (WPI Class of 2020)
 
 ### Description
-This package contains functions and demos for dynamic programming. The files
-in this package are described below:
+This package contains functions and demos for dynamic programming. The files in this package are described below:
 
 - syn : Dynamic programming synthesis
 - synw : Synthesis with exogeneous inputs
