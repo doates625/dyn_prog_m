@@ -44,7 +44,7 @@ j_mins = cell(N+1, 1);
 
 % Progress printing
 prog_disp = ProgDisp(1.0);
-prog_N = x_rng.numel_ * u_rng.numel_ * (N + 1);
+prog_N = x_rng.numel_ + N * x_rng.numel_ * u_rng.numel_;
 prog_i = 1;
 
 % Terminal costs
